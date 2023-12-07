@@ -1,0 +1,72 @@
+from selenium import webdriver
+
+# Step 1: Launch the URL and verify the title of the page
+url = "http://webdriveruniversity.com/index.html"
+driver = webdriver.Chrome()
+driver.get(url)
+
+# Verify the title
+expected_title = "WebDriverUniversity.com"
+actual_title = driver.title
+
+if expected_title in actual_title:
+    print("Step 1: Title verification passed.")
+else:
+    print(f"Step 1: Title verification failed. Expected '{expected_title}' but got '{actual_title}'")
+
+# Step 2: Click on Dropdown-Checkboxes-RadioButtons link
+link = driver.find_element_by_link_text("DROPDOWN, CHECKBOXE(S) & RADIO BUTTON(S)")
+link.click()
+
+# Step 3: Switch to the new tab
+driver.switch_to.window(driver.window_handles[1])
+
+# Step 4: Select values from Drop Menu and verify the selected value
+drop_menu = driver.find_element_by_id("dropdowm-menu-1")
+drop_menu.click()
+selected_value = driver.find_element_by_xpath("//option[@value='python']").text
+
+if selected_value == "python":
+    print("Value 'Python' selected successfully.")
+else:
+    print(f"Value selection failed. Expected 'Python' but got '{selected_value}'")
+
+drop_menu_2 = driver.find_element_by_id("dropdowm-menu-2")
+drop_menu_2.click()
+selected_value_2 = driver.find_element_by_xpath("//option[@value='maven']").text
+
+if selected_value_2 == "maven":
+    print("Value 'Maven' selected successfully.")
+else:
+    print(f"Value selection failed. Expected 'Maven' but got '{selected_value}'")
+
+drop_menu_3 = driver.find_element_by_id("dropdowm-menu-3")
+drop_menu_3.click()
+selected_value_3 = driver.find_element_by_xpath("//option[@value='javascript']").text
+
+if selected_value_3 == "javascript":
+    print("Value 'javascript' selected successfully.")
+else:
+    print(f"Value selection failed. Expected 'javascript' but got '{selected_value}'")
+
+
+
+# Step 5: Select Multiple Checkboxes and verify count
+checkboxes = driver.find_elements_by_css_selector("input[type='checkbox']")
+checked_count = len([checkbox for checkbox in checkboxes if checkbox.is_selected()])
+unchecked_count = len(checkboxes) - checked_count
+
+print(f"Step 5: Checked Checkboxes: {checked_count}, Unchecked Checkboxes: {unchecked_count}")
+
+# Step 6: Select a radio button and verify count
+radio_buttons = driver.find_elements_by_css_selector("input[type='radio']")
+selected_radio_button = driver.find_element_by_css_selector("input[type='radio'][value='orange']")
+selected_radio_button.click()
+
+checked_radio_buttons = len([radio for radio in radio_buttons if radio.is_selected()])
+unchecked_radio_buttons = len(radio_buttons) - checked_radio_buttons
+
+print(f"Step 6: Checked Radio Buttons: {checked_radio_buttons}, Unchecked Radio Buttons: {unchecked_radio_buttons}")
+
+# Close the browser
+driver.quit()
